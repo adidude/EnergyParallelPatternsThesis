@@ -1,23 +1,15 @@
-#snap
-sudo apt -y install snapd
+#dependencies and powertop
+sudo apt -y install snapd gdb git cmake powertop
 #visual studio code
 sudo snap install code --classic
-#gdb
-sudo apt -y install gdb
-#git
-sudo apt -y install git
-#cmake
-sudo apt -y install cmake
-#PowerTop dependancies
-sudo apt -y install powertop
 
 #Fastflow
 if [! -d "/home/adi/Utility"]; then
-    mkdir /home/adi/Utility
-    mkdir /home/adi/Utility/fastflow
+    sudo mkdir /home/adi/Utility
+    sudo mkdir /home/adi/Utility/fastflow
     git clone https://github.com/fastflow/fastflow.git /home/adi/Utility/fastflow
 elif [! -d "/home/adi/Utility/fastflow"]; then 
-    mkdir /home/adi/Utility/fastflow
+    sudo mkdir /home/adi/Utility/fastflow
     git clone https://github.com/fastflow/fastflow.git /home/adi/Utility/fastflow
 fi
 
