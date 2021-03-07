@@ -1,0 +1,58 @@
+#snap
+sudo apt -y install snapd
+#visual studio code
+sudo snap install code --classic
+#gdb
+sudo apt -y install gdb
+#git
+sudo apt -y install git
+#cmake
+sudo apt -y install cmake
+#PowerTop dependancies
+sudo apt -y install powertop
+
+#Fastflow
+if [! -d "/home/adi/Utility"]; then
+    mkdir /home/adi/Utility
+    mkdir /home/adi/Utility/fastflow
+    git clone https://github.com/fastflow/fastflow.git /home/adi/Utility/fastflow
+elif [! -d "/home/adi/Utility/fastflow"]; then 
+    mkdir /home/adi/Utility/fastflow
+    git clone https://github.com/fastflow/fastflow.git /home/adi/Utility/fastflow
+fi
+
+export FF_ROOT=/home/adi/Utility/fastflow
+sudo echo "export FF_ROOT=/home/adi/Utility/fastflow" >> ~/.bashrc
+
+if [ ! -d "/home/adi/Utility/fastflow/build" ]; then
+    sudo mkdir /home/adi/Utility/fastflow/build
+fi
+cd $FF_ROOT/build
+cmake /home/adi/Utility/fastflow
+make
+make test
+sudo make install DESTDIR=/
+
+#~~~~~~IntelTBB - now Intel OneAPI Thread Building Blocks ~WIP~~~~~~
+#sudo apt-get install -y gpg-agent
+#wget -qO - https://repositories.intel.com/graphics/intel-graphics.key | sudo apt-key add -
+#sudo apt-add-repository \ 'deb [arch=amd64] https://repositories.intel.com/graphics/ubuntu bionic main'
+
+#sudo apt-get update
+#sudo apt-get install \
+#  intel-opencl \
+#  intel-level-zero-gpu level-zero
+
+#sudo apt-get install \
+#  intel-igc-opencl-devel \
+#  level-zero-devel
+
+#stat -c "%G" /dev/dri/render*
+#groups ${USER}
+
+#cd /tmp
+#wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+#sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+#rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+
+#sudo apt -y install intel-basekit
