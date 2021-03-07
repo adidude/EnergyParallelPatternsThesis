@@ -4,11 +4,11 @@ sudo apt -y install snapd gdb git cmake powertop
 sudo snap install code --classic
 
 #Fastflow
-if [! -d "/home/adi/Utility"]; then
+if [ ! -d "/home/adi/Utility" ]; then
     sudo mkdir /home/adi/Utility
     sudo mkdir /home/adi/Utility/fastflow
     git clone https://github.com/fastflow/fastflow.git /home/adi/Utility/fastflow
-elif [! -d "/home/adi/Utility/fastflow"]; then 
+elif [ ! -d "/home/adi/Utility/fastflow" ]; then 
     sudo mkdir /home/adi/Utility/fastflow
     git clone https://github.com/fastflow/fastflow.git /home/adi/Utility/fastflow
 fi
