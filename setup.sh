@@ -2,6 +2,10 @@
 sudo apt -y install snapd gdb git cmake powertop
 #visual studio code
 sudo snap install code --classic
+#pip
+sudo apt install -y python-pip
+#s-tui
+sudo apt install s-tui
 
 #Fastflow
 if [ ! -d "/home/adi/Utility" ]; then
@@ -24,6 +28,7 @@ cmake /home/adi/Utility/fastflow
 make
 make test
 sudo make install DESTDIR=/
+sudo cp -r /home/adi/Utility/fastflow/ff /usr/local/include
 
 #~~~~~~IntelTBB - now Intel OneAPI Thread Building Blocks ~WIP~~~~~~
 #sudo apt-get install -y gpg-agent

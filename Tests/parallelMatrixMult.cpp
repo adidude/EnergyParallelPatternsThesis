@@ -1,8 +1,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <thread>
+#include <ff/parallel_for.hpp>
 
 using namespace std;
+using namespace ff;
+
+const auto processors = std::thread::hardware_concurrency();
 
 /** Prints a 2D matrix stored in a 2D vector.
  * matrix - matrix to be printed
@@ -38,10 +43,11 @@ vector<vector<int>> multiplyMatrices(vector<vector<int>> matrix1, vector<vector<
     if(col1 != row2)
     {
         cout << "The number or rows of matrix 1 != columns of matrix 2." << endl;
-        return;
+        vector<vector<int>> matri{{}};
+        return matri;
     }
     vector<vector<int>> finalMatrix;
-
+    
     for(int i = 0; i < row1; i++)
     {
         vector<int> row;
@@ -65,8 +71,8 @@ vector<vector<int>> multiplyMatrices(vector<vector<int>> matrix1, vector<vector<
 int main()
 {
     // Arrays to be multiplied
-    vector<vector<int>> matr2{{1,2},{3,4}};
-    vector<vector<int>> matr1{{2,0},{1,2}};
+    vector<vector<int>> matr2{{2,1,5,3},{0,7,1,6},{9,2,4,4},{3,6,7,2}};
+    vector<vector<int>> matr1{{6,1,2,3},{4,5,6,5},{1,9,8,-8},{4,0,-8,5}};
 
     printMatrix(multiplyMatrices(matr2,matr1));
 
