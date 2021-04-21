@@ -3,17 +3,22 @@
 #include <vector>
 #include <fstream>
 #include <chrono>
+#include <iomanip>
 #include <thread>
 #include <assert.h>
 #include <ff/parallel_for.hpp>
+#include <ff/pipeline.hpp>
 #include "strassen.h"
 
 using namespace std;
 using namespace std::chrono;
 using namespace ff;
 
-const auto noOfProcessors = thread::hardware_concurrency();
-string fileToOpen = "Datasets/400xmatrixDataset";
+// Gets the number of cores - 1 to utilize a single core to take readings.
+const auto noOfProcessors = thread::hardware_concurrency()-1;
+string fileToOpen = "PyScripts/Output/matrixDataset";
+
+//struct 
 
 /** Prints a 2D matrix stored in a 2D vector.
  * matrix - matrix to be printed
@@ -51,7 +56,7 @@ void assertMultiplicationValidity(int col, int row)
     if (col != row)
     {
         cout << "The number or rows of matrix 1 != columns of matrix 2." << endl;
-        assert(col == row);        
+        assert(false);        
     }
 }
 
@@ -111,6 +116,11 @@ vector<vector<vector<int>>> readMatricesFromData()
 {
     fstream file;
     file.open(fileToOpen);
+    if(!file.is_open())
+    {
+        cout << "Failed to open file" << endl;
+        assert(false);
+    }
     string line = "";
     vector<vector<vector<int>>> deliverable;
     while (getline(file, line))
@@ -251,12 +261,13 @@ vector<vector<int>> parallelMatrixMultiplication(vector<vector<int>> matrix1, ve
 
 void dataGatherer(int repetitions)
 {
+    cout << "Serial Start (ms),Serial End (ms),Serial Duration (ms),Parallel Start (ms),Parallel End (ms),Parallel Duration (ms),Cores,Speedup" << endl;
     vector<vector<vector<int>>> matrices = readMatricesFromData();
     
     auto t1 = high_resolution_clock::now();
     auto t2 = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(t2 - t1);
-    vector<int> speedUps;
+    auto duration = duration_cast<milliseconds>(t2 - t1);
+    auto executionStart = high_resolution_clock::now();
     for(int i = 0; i < repetitions; i++)
     {
         for(int j = 0;j < matrices.size();j=j+2)
@@ -264,47 +275,26 @@ void dataGatherer(int repetitions)
             t1 = high_resolution_clock::now();
             vector<vector<int>> ans1 = multiplyMatrices(matrices[j],matrices[j+1]);
             t2 = high_resolution_clock::now();
-            duration = duration_cast<nanoseconds>(t2 - t1);
+            duration = duration_cast<milliseconds>(t2 - t1);
             int serialTime = duration.count();
+            string serialData = to_string(duration_cast<milliseconds>(t1 - executionStart).count()) + "," + to_string(duration_cast<milliseconds>(t2 - executionStart).count()) + "," + to_string(serialTime);
 
-            for (int k = 1; k <= noOfProcessors; k++)
+            for(int k = 1; k <= noOfProcessors; k++)
             {
                 t1 = high_resolution_clock::now();
                 vector<vector<int>> ans2 = parallelMatrixMultiplication(matrices[j], matrices[j + 1], k);
                 t2 = high_resolution_clock::now();
-                duration = duration_cast<nanoseconds>(t2 - t1);
-
-                //cout << "Serial: " << serialTime << "  Parallel: " << duration.count() << endl;
-
-                speedUps.push_back(serialTime/duration.count());
+                duration = duration_cast<milliseconds>(t2 - t1);
+                int speedup = serialTime/duration.count();
+                string printData = serialData + "," + to_string(duration_cast<milliseconds>(t1-executionStart).count()) + "," + to_string(duration_cast<milliseconds>(t2-executionStart).count()) + "," + to_string(duration.count()) + "," + to_string(k) + "," + to_string(speedup);
+                cout << printData << endl;
             }
         }
-    }
-    int maxResults = speedUps.size();
-    for(int i =0; i<maxResults;i++)
-    {
-        cout << i+1 << " Core Speedup: " << speedUps[i] << endl;
     }
 }
 
 int main()
 {
-    /*vector<vector<int>> mat1{{1,2,3,4,5,6},{7,8,9,10,11,12},{13,14,15,16,17,18},{19,20,21,22,23,24},{25,26,27,28,29,30},{31,32,33,34,45,64}};
-    vector<vector<int>> test = mat1;
-    vector<vector<int>> mat2{{45,12,85,12,56,22},{87,12,97,74,29,16},{94,64,99,83,18,75},{19,67,23,12,75,83},{87,26,80,20,60,12},{76,12,76,90,45,78}};
-    
-    vector<vector<int>> mult2 = multiplyMatrices(mat1,mat2);
-
-    vector<vector<int>> mult1 = parallelMatrixMultiplication(mat1,mat2,6);
-    if(mult1 == mult2)
-    {
-        cout << "The matrices are equal" << endl;
-    }
-    else
-    {
-        cout << "An error occured such that the matrices are not equal.";
-    }*/
-
     dataGatherer(1);
     return 0;
 }
