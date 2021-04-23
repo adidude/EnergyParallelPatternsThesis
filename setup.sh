@@ -11,21 +11,8 @@ sudo pacman --noconfirm -S cmake
 echo "~make~"
 sudo pacman --noconfirm -S make
 
-#pip
-#sudo apt install -y python-pip &
-#sudo apt -y install snapd
-echo "~pip~"
-sudo pacman --noconfirm -S python-pip
 #echo "~snapd~"
 #sudo pacman --noconfirm -S snapd
-wait
-#visual studio code
-echo "~visual studio code~"
-#sudo snap install code --classic &
-sudo pacman --noconfirm -S code
-#s-tui
-echo "~s-tui~"
-sudo pip install s-tui &
 
 #Fastflow
 echo "~FastFlow~"
@@ -50,29 +37,3 @@ sudo make
 sudo make test
 sudo make install DESTDIR=/
 sudo cp -r /home/$USER/Utility/fastflow/ff /usr/local/include
-
-#Wait for background jobs to finish
-wait
-#~~~~~~IntelTBB - now Intel OneAPI Thread Building Blocks ~WIP~~~~~~
-#sudo apt-get install -y gpg-agent
-#wget -qO - https://repositories.intel.com/graphics/intel-graphics.key | sudo apt-key add -
-#sudo apt-add-repository \ 'deb [arch=amd64] https://repositories.intel.com/graphics/ubuntu bionic main'
-
-#sudo apt-get update
-#sudo apt-get install \
-#  intel-opencl \
-#  intel-level-zero-gpu level-zero
-
-#sudo apt-get install \
-#  intel-igc-opencl-devel \
-#  level-zero-devel
-
-#stat -c "%G" /dev/dri/render*
-#groups ${USER}
-
-#cd /tmp
-#wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-#sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-#rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
-
-#sudo apt -y install intel-basekit

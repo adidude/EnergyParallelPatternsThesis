@@ -2,19 +2,20 @@ import random
 import os.path
 from os import path
 #sets the number of lines to generate.
-linesToGen = 1000
+linesToGen = 25
 count = 0
-if path.exists("matrixDataset"):
-    file = open("Output/matrixDataset","w")
+writeFile = "Output/matrixDataset"
+if path.exists(writeFile):
+    file = open(writeFile,"w")
 else:
-    file = open("Output/matrixDataset","x")
+    file = open(writeFile,"x")
 while count < linesToGen:
     #Can comment out to generate matrices of varying lenght between 1-10 or set custom dimensions 
     sentence = ""
     matrixDimensions = []
     #first 3 values determine the dimensions of both matrices to be multiplied.
-    sentence = "400,400,400,"
-    matrixDimensions = [400,400,400]
+    sentence = "2000,2000,2000,"
+    matrixDimensions = [2000,2000,2000]
     
     count2 = 0
     #Determines matrix dimensions if they were not specified.
