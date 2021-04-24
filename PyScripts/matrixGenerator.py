@@ -2,7 +2,7 @@ import random
 import os.path
 from os import path
 #sets the number of lines to generate.
-linesToGen = 25
+linesToGen = 100
 count = 0
 writeFile = "Output/matrixDataset"
 if path.exists(writeFile):
