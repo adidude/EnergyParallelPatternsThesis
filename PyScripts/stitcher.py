@@ -4,7 +4,7 @@ import multiprocessing
 
 numberOfCores = multiprocessing.cpu_count() - 1
 
-fileName = "stiched.txt"
+fileName = "PyScripts/Output/stitched.txt"
 if path.exists(fileName):
     n = open(fileName,"w")
 else:
@@ -12,8 +12,8 @@ else:
 
 n.write("Serial Start (ms),Serial End (ms),Serial Duration (ms),Energy at Serial Start (mWh),Energy at Serial End (mWh),Serial Energy Consumed (mWh),Parallel Start (ms),Parallel End (ms),Parallel Duration (ms),Energy at Parallel Start (mWh),Energy at Parallel End (mWh),Parallel Energy Consumed (mWh),Cores,Speedup\n")
 
-speedup = open("untitled")
-drain = open("energy")
+speedup = open("PyScripts/Output/testOutput")
+drain = open("PyScripts/Output/energyDrain.txt")
 
 speedupData = speedup.readlines()
 drainData = drain.readlines()
