@@ -11,10 +11,6 @@ sudo pacman --noconfirm -S cmake
 echo "~make~"
 sudo pacman --noconfirm -S make
 
-echo "~snapd~"
-sudo pacman --noconfirm -S snapd
-echo "~Visual Studio Code~"
-sudo snap install code --classic
 #Fastflow
 echo "~FastFlow~"
 if [ ! -d "/home/$USER/Utility" ]; then
